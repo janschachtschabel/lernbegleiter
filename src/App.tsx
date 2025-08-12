@@ -1,15 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, GraduationCap } from 'lucide-react';
+import { Send, Loader2, GraduationCap, LogOut } from 'lucide-react';
 import { ChatMessage } from './components/ChatMessage';
 import { SettingsPanel } from './components/SettingsPanel';
 import { WLOSidebar } from './components/WLOSidebar';
 import { DebugPanel } from './components/DebugPanel';
 import { LearningProgressSidebar } from './components/LearningProgressSidebar';
 import { KeyTermsPanel } from './components/KeyTermsPanel';
+import { LoginScreen } from './components/LoginScreen';
+import { Impressum } from './components/Impressum';
 import { processChatMessage } from './lib/chatUtils';
 import { ChatMessage as ChatMessageType, ChatSettings, WLOMetadata, LearningProgress, KeyTerm } from './lib/types';
 
 function App() {
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [impressumOpen, setImpressumOpen] = useState(false);
+
   const [messages, setMessages] = useState<ChatMessageType[]>([
     {
       role: 'assistant',
@@ -43,6 +49,46 @@ function App() {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Check authentication on component mount
+  useEffect(() => {
+    const checkAuth = () => {
+      const authStatus = localStorage.getItem('wlo_authenticated');
+      const authTimestamp = localStorage.getItem('wlo_auth_timestamp');
+      
+      if (authStatus === 'true' && authTimestamp) {
+        const authTime = parseInt(authTimestamp);
+        const now = Date.now();
+        const sessionDuration = 24 * 60 * 60 * 1000; // 24 hours
+        
+        if (now - authTime < sessionDuration) {
+          setIsAuthenticated(true);
+        } else {
+          // Session expired
+          localStorage.removeItem('wlo_authenticated');
+          localStorage.removeItem('wlo_auth_timestamp');
+          setIsAuthenticated(false);
+        }
+      }
+    };
+    
+    checkAuth();
+  }, []);
+
+  const handleLogin = (success: boolean) => {
+    setIsAuthenticated(success);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('wlo_authenticated');
+    localStorage.removeItem('wlo_auth_timestamp');
+    setIsAuthenticated(false);
+    setMessages([{
+      role: 'assistant',
+      content: 'Hallo! Ich bin Ihr interaktiver Lernbegleiter. Stellen Sie mir eine Lernfrage und ich helfe Ihnen dabei, das Thema durch gezielte Fragen und Hinweise zu verstehen. Womit kann ich Ihnen heute helfen?',
+      timestamp: Date.now()
+    }]);
   };
 
   // Intelligente LLM-basierte Lerninhalt-Analyse mit Ist-Stand-Übertragung
@@ -332,6 +378,11 @@ WICHTIGE REGELN:
     }
   };
 
+  // Show login screen if not authenticated
+  if (!isAuthenticated) {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Linke Sidebar - Lernfortschritt */}
@@ -358,13 +409,31 @@ WICHTIGE REGELN:
               </div>
             </div>
             
-            <div className="settings-panel">
-              <SettingsPanel
-                settings={settings}
-                onSettingsChange={setSettings}
-                isOpen={settingsOpen}
-                onToggle={() => setSettingsOpen(!settingsOpen)}
-              />
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setImpressumOpen(true)}
+                className="px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                title="Impressum & Kontakt"
+              >
+                Impressum
+              </button>
+              
+              <div className="settings-panel">
+                <SettingsPanel
+                  settings={settings}
+                  onSettingsChange={setSettings}
+                  isOpen={settingsOpen}
+                  onToggle={() => setSettingsOpen(!settingsOpen)}
+                />
+              </div>
+              
+              <button
+                onClick={handleLogout}
+                className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                title="Abmelden"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
             </div>
           </div>
         </header>
@@ -456,6 +525,12 @@ WICHTIGE REGELN:
           keyTerms={learningProgress.keyTerms}
         />
       </div>
+
+      {/* Impressum Modal */}
+      <Impressum 
+        isOpen={impressumOpen} 
+        onClose={() => setImpressumOpen(false)} 
+      />
     </div>
   );
 }
