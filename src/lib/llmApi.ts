@@ -236,8 +236,8 @@ WICHTIG:
 
   try {
     // Verwende direkte OpenAI API für Analyse
-    const openaiKey = (import.meta as any).env?.VITE_OPENAI_API_KEY;
-    if (!openaiKey) {
+    const apiKey = (import.meta as any).env.VITE_OPENAI_API_KEY;
+    if (!apiKey) {
       console.log('⚠️ Kein OpenAI API Key für Topic-Analyse');
       return { topics: [] };
     }
@@ -246,7 +246,7 @@ WICHTIG:
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${openaiKey}`
+        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',

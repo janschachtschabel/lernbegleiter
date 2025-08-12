@@ -181,7 +181,7 @@ export function formatDebugInfo(debugInfo: any): string {
   return JSON.stringify({
     model: debugInfo.model,
     metadata: debugInfo.metadata,
-    wloCount: debugInfo.wloCount,
+    wloCount: debugInfo.wloCount || 0,
     timestamp: new Date().toISOString()
   }, null, 2);
 }
