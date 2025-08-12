@@ -1,0 +1,44 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/edu-sharing/rest/:path*",
+      "destination": "https://redaktion.openeduhub.net/edu-sharing/rest/:path*"
+    },
+    {
+      "source": "/api/openai/:path*",
+      "destination": "https://api.openai.com/:path*"
+    },
+    {
+      "source": "/api/gwdg/:path*",
+      "destination": "https://chat-ai.academiccloud.de/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Accept, Authorization, Content-Type"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "app/api/chat.ts": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "VITE_OPENAI_API_KEY": "@openai_api_key",
+    "VITE_GWDG_API_KEY": "@gwdg_api_key"
+  }
+}
