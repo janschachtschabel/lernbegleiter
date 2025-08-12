@@ -36,9 +36,5 @@
     "app/api/chat.ts": {
       "maxDuration": 30
     }
-  },
-  "env": {
-    "VITE_OPENAI_API_KEY": "@openai_api_key",
-    "VITE_GWDG_API_KEY": "@gwdg_api_key"
   }
 }

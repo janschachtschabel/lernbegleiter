@@ -26,6 +26,8 @@ Ein moderner, sokratischer Lernbegleiter mit intelligenten WLO-Empfehlungen, geb
 - **📱 Responsive Design**: Optimiert für Desktop und Mobile mit Tailwind CSS
 - **⚡ Performance**: Vite-basiert für schnelle Entwicklung und Builds
 - **🔒 Sicherheit**: Umfassender Schutz für API-Keys und sensible Daten
+- **🔐 Passwort-Schutz**: Zugriffsbeschränkung für autorisierte Nutzer
+- **⚖️ Rechtssicherheit**: Vollständiges Impressum nach deutschem TMG
 
 ## 🚀 Quick Start
 
@@ -55,6 +57,21 @@ npm run dev
 
 Die App läuft auf `http://localhost:5173`
 
+## 🔐 Authentifizierung
+
+Die Anwendung ist durch ein Passwort-System geschützt:
+
+### **Zugang**
+- **Passwort**: `lernbegleiter2025`
+- **Session-Dauer**: 24 Stunden (automatische Abmeldung)
+- **Speicherung**: Lokaler Browser-Speicher (localStorage)
+
+### **Funktionen**
+- **Login-Screen**: Blockiert Zugang bis zur korrekten Eingabe
+- **Logout-Button**: Sicheres Abmelden im Header (🚪-Symbol)
+- **Session-Persistenz**: Bleibt bei Browser-Refresh erhalten
+- **Auto-Logout**: Nach 24h oder bei manueller Abmeldung
+
 ## 🔒 Sicherheit
 
 ⚠️ **WICHTIG**: Diese Anwendung verwendet sensible API-Keys, die geschützt werden müssen!
@@ -81,6 +98,24 @@ VITE_GWDG_API_KEY=your_gwdg_key_here
 - ✅ `SECURITY.md` mit Sicherheitsrichtlinien
 - ✅ Pull Request Template mit Sicherheitscheckliste
 - ✅ Keine API-Keys im Quellcode hardcodiert
+
+## ⚖️ Rechtliche Compliance
+
+### **Impressum (TMG-konform)**
+- **Vollständige Anbieterkennzeichnung** nach § 5 TMG
+- **Kontaktdaten**: Jan Schachtschabel, Steubenstr. 34, 99423 Weimar
+- **E-Mail-Kontakt**: info@schachtschabel.net
+- **Zugriff**: "Impressum"-Button im Header der Anwendung
+
+### **Datenschutz**
+- **Transparenz**: Hinweise auf Datenverarbeitung durch OpenAI und GWDG
+- **Kontaktformular**: Öffnet E-Mail-Client (keine Server-seitige Speicherung)
+- **Minimale Datenerhebung**: Nur funktionsnotwendige Verarbeitung
+
+### **Haftungsausschlüsse**
+- **Inhalte**: Nach §§ 7-10 TMG
+- **Links**: Keine Verantwortung für externe Inhalte
+- **Urheberrecht**: Schutz eigener Inhalte nach deutschem Recht
 
 ### Vercel Deployment
 
