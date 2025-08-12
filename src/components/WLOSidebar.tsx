@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BookOpen, ExternalLink, RefreshCw } from 'lucide-react';
 import { WLOMetadata } from '../lib/types';
 import { WLOResourceCard } from './WLOResourceCard';

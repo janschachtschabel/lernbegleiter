@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Settings, Brain, BookOpen, Bug } from 'lucide-react';
 import { ChatSettings } from '../lib/types';
 

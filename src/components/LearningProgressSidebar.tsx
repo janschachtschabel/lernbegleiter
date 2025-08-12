@@ -1,6 +1,6 @@
-import React from 'react';
+
 import { Clock, Trophy, AlertCircle, BookOpen } from 'lucide-react';
-import { LearningProgress, LearningTopic } from '../lib/types';
+import { LearningProgress } from '../lib/types';
 
 interface LearningProgressSidebarProps {
   learningProgress: LearningProgress;
@@ -11,7 +11,7 @@ interface LearningProgressSidebarProps {
 export function LearningProgressSidebar({ 
   learningProgress, 
   onTopicSelect, 
-  onSelfAssessment 
+  onSelfAssessment: _onSelfAssessment 
 }: LearningProgressSidebarProps) {
   const formatTime = (minutes: number) => {
     if (minutes < 60) return `${minutes}min`;

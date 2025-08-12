@@ -7,7 +7,7 @@ export async function searchWLO({
   maxItems = 10,
   skipCount = 0,
   propertyFilter = '-all-',
-  combineMode = 'AND'
+  combineMode: _combineMode = 'OR'
 }: WLOSearchParams): Promise<{ nodes: any[] }> {
   try {
     // Construct the search criteria array

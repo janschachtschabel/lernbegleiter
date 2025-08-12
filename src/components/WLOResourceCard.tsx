@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ExternalLink, BookOpen, Video, FileText, Image, Headphones } from 'lucide-react';
 import { WLOMetadata } from '../lib/types';
 

@@ -9,7 +9,7 @@ import { KeyTermsPanel } from './components/KeyTermsPanel';
 import { LoginScreen } from './components/LoginScreen';
 import { Impressum } from './components/Impressum';
 import { processChatMessage } from './lib/chatUtils';
-import { ChatMessage as ChatMessageType, ChatSettings, WLOMetadata, LearningProgress, KeyTerm } from './lib/types';
+import { ChatMessage as ChatMessageType, ChatSettings, WLOMetadata, LearningProgress } from './lib/types';
 
 function App() {
   // Authentication state

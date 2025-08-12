@@ -10,6 +10,7 @@ export interface WLOMetadata {
   subject: string;
   educationalContext: string[];
   wwwUrl: string | null;
+  url?: string;
   previewUrl: string | null;
   resourceType?: string;
 }

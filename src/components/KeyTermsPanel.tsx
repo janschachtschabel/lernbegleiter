@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ExternalLink, Book } from 'lucide-react';
 import { KeyTerm } from '../lib/types';
 

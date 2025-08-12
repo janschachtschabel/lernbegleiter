@@ -206,15 +206,15 @@ export async function generateChatResponse(
 
 // Asynchrone Analyse-Funktionen für Lernfortschritt
 
-export async function analyzeTopics(botMessage: string, userMessage: string, settings: any, currentState?: any) {
+export async function analyzeTopics(_botMessage: string, _userMessage: string, _settings: any, _currentState?: any) {
   const prompt = `Analysiere diese Lernunterhaltung und extrahiere die Hauptthemen und Teilthemen.
 
 AKTUELLER STAND:
-${currentState ? `Existierende Themen: ${JSON.stringify(currentState.existingTopics, null, 2)}` : 'Keine existierenden Themen'}
+${_currentState ? `Existierende Themen: ${JSON.stringify(_currentState.existingTopics || [], null, 2)}` : 'Keine existierenden Themen'}
 
 NEUE UNTERHALTUNG:
-BENUTZER-FRAGE: "${userMessage}"
-BOT-ANTWORT: "${botMessage}"
+BENUTZER-FRAGE: "${_userMessage}"
+TUTOR-ANTWORT: "${_botMessage}"
 
 Antworte NUR mit einem JSON-Objekt in diesem Format:
 {
@@ -236,7 +236,7 @@ WICHTIG:
 
   try {
     // Verwende direkte OpenAI API für Analyse
-    const openaiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    const openaiKey = (import.meta as any).env?.VITE_OPENAI_API_KEY;
     if (!openaiKey) {
       console.log('⚠️ Kein OpenAI API Key für Topic-Analyse');
       return { topics: [] };
@@ -266,15 +266,15 @@ WICHTIG:
   }
 }
 
-export async function analyzeKeyTerms(botMessage: string, userMessage: string, settings: any, currentState?: any) {
+export async function analyzeKeyTerms(_botMessage: string, _userMessage: string, settings: any, _currentState?: any) {
   const prompt = `Extrahiere die wichtigsten Fachbegriffe aus dieser Lernunterhaltung.
 
 AKTUELLER STAND:
-${currentState ? `Existierende Begriffe: ${currentState.existingKeyTerms.join(', ')}` : 'Keine existierenden Begriffe'}
+${_currentState ? `Existierende Begriffe: ${(_currentState.existingKeyTerms || []).join(', ')}` : 'Keine existierenden Begriffe'}
 
 NEUE UNTERHALTUNG:
-BENUTZER-FRAGE: "${userMessage}"
-BOT-ANTWORT: "${botMessage}"
+BENUTZER-FRAGE: "${_userMessage}"
+BOT-ANTWORT: "${_botMessage}"
 
 Antworte NUR mit einem JSON-Objekt in diesem Format:
 {
@@ -292,7 +292,7 @@ Fokussiere auf Begriffe, die für das Verständnis zentral sind.`;
 
   try {
     const analysisMessages = [{ role: 'user' as const, content: prompt, timestamp: Date.now() }];
-    const response = await generateChatResponse(analysisMessages, prompt, settings);
+    const response = await generateChatResponse(analysisMessages, [], settings);
     return JSON.parse(response.message);
   } catch (error) {
     console.error('Key terms analysis failed:', error);
@@ -300,16 +300,16 @@ Fokussiere auf Begriffe, die für das Verständnis zentral sind.`;
   }
 }
 
-export async function analyzeProgress(botMessage: string, userMessage: string, settings: any, currentState?: any) {
+export async function analyzeProgress(_botMessage: string, _userMessage: string, settings: any, _currentState?: any) {
   const prompt = `Bewerte den Lernfortschritt basierend auf dieser Unterhaltung.
 
 AKTUELLER STAND:
-${currentState ? `Erfolge: ${currentState.currentSuccesses.join(', ')}
-Herausforderungen: ${currentState.currentChallenges.join(', ')}` : 'Keine bisherigen Erfolge/Herausforderungen'}
+${_currentState ? `Erfolge: ${(_currentState.currentSuccesses || []).join(', ')}
+Herausforderungen: ${(_currentState.currentChallenges || []).join(', ')}` : 'Keine bisherigen Erfolge/Herausforderungen'}
 
 NEUE UNTERHALTUNG:
-BENUTZER-FRAGE: "${userMessage}"
-BOT-ANTWORT: "${botMessage}"
+BENUTZER-FRAGE: "${_userMessage}"
+BOT-ANTWORT: "${_botMessage}"
 
 Antworte NUR mit einem JSON-Objekt in diesem Format:
 {
@@ -326,7 +326,7 @@ Bewerte realistisch basierend auf der Qualität der Fragen und dem Verständnis.
 
   try {
     const analysisMessages = [{ role: 'user' as const, content: prompt, timestamp: Date.now() }];
-    const response = await generateChatResponse(analysisMessages, prompt, settings);
+    const response = await generateChatResponse(analysisMessages, [], settings);
     return JSON.parse(response.message);
   } catch (error) {
     console.error('Progress analysis failed:', error);

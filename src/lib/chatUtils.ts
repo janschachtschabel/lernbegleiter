@@ -161,8 +161,7 @@ export async function processChatMessage(
         refId: s.refId || '',
         finalUrl: s.wwwUrl || (s as any).url || (s.refId ? `https://redaktion.openeduhub.net/edu-sharing/components/render/${s.refId}` : null)
       }));
-      response.debugInfo.usedWloCount = usedWloMaterials.length;
-      response.debugInfo.totalWloCount = wloSuggestions.length;
+      response.debugInfo.wloCount = usedWloMaterials.length;
     }
 
     // Return response with filtered WLO suggestions (only materials actually used)
